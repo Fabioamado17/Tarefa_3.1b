@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANIMALEC - Gestão de Sponsors e Experts</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+    <style>
+        /* Estilos personalizados do Animalec */
+        body {
+            font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        }
+
+        .navbar-brand img {
+            max-width: 250px;
+            height: 50px;
+        }
+
+        .bg-dark {
+            background-color: #2c3e50 !important;
+        }
+
+        .page-section {
+            padding: 6rem 0;
+        }
+
+        .page-section-heading {
+            font-size: 3rem;
+            line-height: 2.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #2c3e50;
+            font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        .divider-custom {
+            margin: 1.25rem 0 1.5rem;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .divider-custom .divider-custom-line {
+            width: 100%;
+            max-width: 7rem;
+            height: 0.25rem;
+            background-color: #2c3e50;
+            border-radius: 1rem;
+            border-color: #2c3e50;
+        }
+
+        .divider-custom .divider-custom-line:first-child {
+            margin-right: 1rem;
+        }
+
+        .divider-custom .divider-custom-line:last-child {
+            margin-left: 1rem;
+        }
+
+        .divider-custom .divider-custom-icon {
+            color: #2c3e50;
+            font-size: 2rem;
+        }
+
+        .thead-dark th {
+            background-color: #2c3e50;
+            border-color: #2c3e50;
+        }
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(0, 0, 0, .05);
+        }
+
+        .btn-outline-success {
+            color: #28a745;
+            border-color: #28a745;
+        }
+
+        .btn-outline-success:hover {
+            color: #fff;
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+        .btn-outline-info {
+            color: #17a2b8;
+            border-color: #17a2b8;
+        }
+
+        .btn-outline-info:hover {
+            color: #fff;
+            background-color: #17a2b8;
+            border-color: #17a2b8;
+        }
+
+        .btn-outline-danger {
+            color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .btn-outline-danger:hover {
+            color: #fff;
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        /* Estilos para abas */
+        .nav-tabs-custom {
+            border-bottom: 2px solid #dee2e6;
+            margin-bottom: 2rem;
+        }
+
+        .nav-tabs-custom .nav-link {
+            border: none;
+            border-bottom: 3px solid transparent;
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 1rem 2rem;
+        }
+
+        .nav-tabs-custom .nav-link:hover {
+            border-bottom-color: #18bc9c;
+        }
+
+        .nav-tabs-custom .nav-link.active {
+            border-bottom-color: #18bc9c;
+            color: #18bc9c;
+            background: none;
+        }
+
+        .tab-content {
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Modal personalizado */
+        .modal-header {
+            background-color: #2c3e50;
+            color: white;
+        }
+
+        .modal-header .close {
+            color: white;
+            opacity: 1;
+        }
+
+        .modal-title {
+            font-weight: 700;
+        }
+
+        .modal-content {
+            text-align: center;
+        }
+
+        .modal-footer{
+            justify-content: center;
+        }
+
+        .badge-ativo {
+            background-color: #28a745;
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 1rem;
+            font-size: 0.85rem;
+        }
+
+        .badge-inativo {
+            background-color: #dc3545;
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 1rem;
+            font-size: 0.85rem;
+        }
+
+        /* Notificações */
+        .notificacao-flutuante {
+            position: fixed;
+            top: 5rem;
+            right: 2rem;
+            z-index: 9999;
+            min-width: 300px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Pesquisa */
+        .input-group-text {
+            background-color: #e9ecef;
+            border-right: none;
+        }
+
+        .form-control:focus {
+            border-color: #18bc9c;
+            box-shadow: 0 0 0 0.2rem rgba(24, 188, 156, 0.25);
+        }
+
+        /* Cursor pointer para ordenação */
+        .thead-dark th {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .thead-dark th:hover {
+            background-color: #1a252f;
+        }
+
+        /* Campo obrigatório */
+        .campo-obrigatorio::after {
+            content: '*';
+            color: #dc3545;
+            margin-left: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra de Navegação -->
+    <div class="container-fluid">
+        <div>
+            <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
+                <a href="#" class="navbar-brand ml-5">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 250 50'%3E%3Ctext x='10' y='35' font-family='Montserrat' font-size='24' font-weight='bold' fill='white'%3EANIMALEC%3C/text%3E%3C/svg%3E" 
+                         alt="ANIMALEC" 
+                         title="Página principal do Animalec" 
+                         style="width:250px;height:50px;">
+                </a>
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#nav-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div id="nav-collapse" class="navbar-collapse collapse">
+                    <ul class="navbar-nav ml-auto mr-5">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">ANIMAIS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">QUIZZES</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">CONTACTOS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link active">ADMIN</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Secção Principal -->
+        <section class="page-section">
+            <div class="container">
+                <!-- Cabeçalho -->
+                <div class="container">
+                    <div class="row text-center">
+                        <div class="col">
+                            <h2 class="page-section-heading mt-5">GESTÃO DE SPONSORS E EXPERTS</h2>
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="col">
+                            <div class="divider-custom">
+                                <div class="divider-custom-line"></div>
+                                <div class="divider-custom-icon">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="divider-custom-line"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Abas de Navegação -->
+                <ul class="nav nav-tabs nav-tabs-custom" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#tab-sponsors" role="tab">
+                            <i class="fas fa-handshake"></i> SPONSORS
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#tab-experts" role="tab">
+                            <i class="fas fa-user-md"></i> EXPERTS
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Conteúdo das Abas -->
+                <div class="tab-content">
+                    <!-- TAB SPONSORS -->
+                    <div class="tab-pane fade show active" id="tab-sponsors" role="tabpanel">
+                        <!-- Barra de Ações -->
+                        <div class="row mb-4">
+                            <div class="col">
+                                <button class="btn btn-outline-success mr-2 mt-2" onclick="abrirModalAdicionarSponsor()">
+                                    <i class="fas fa-plus-square"></i> ADICIONAR SPONSOR
+                                </button>
+                                <button class="btn btn-outline-info mr-2 mt-2" onclick="window.location.href='#'">
+                                    <i class="fas fa-bars"></i> MENU PRINCIPAL
+                                </button>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group mt-2">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-search"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control" id="pesquisa-sponsors" 
+                                           placeholder="Pesquisar sponsors..." onkeyup="pesquisarSponsors()">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tabela de Sponsors -->
+                        <div class="row">
+                            <div class="col">
+                                <table class="table table-striped">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th scope="col" onclick="ordenarTabela('sponsors', 'nome')">
+                                                NOME <i class="fas fa-arrow-up"></i>
+                                            </th>
+                                            <th scope="col" onclick="ordenarTabela('sponsors', 'tipoApoio')">
+                                                TIPO DE APOIO
+                                            </th>
+                                            <th scope="col" onclick="ordenarTabela('sponsors', 'estado')">
+                                                ESTADO
+                                            </th>
+                                            <th scope="col" onclick="ordenarTabela('sponsors', 'dataCriacao')">
+                                                DATA DE CRIAÇÃO
+                                            </th>
+                                            <th scope="col">AÇÕES</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="corpo-tabela-sponsors">
+                                        <!-- Preenchido via JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB EXPERTS -->
+                    <div class="tab-pane fade" id="tab-experts" role="tabpanel">
+                        <!-- Barra de Ações -->
+                        <div class="row mb-4">
+                            <div class="col">
+                                <button class="btn btn-outline-success mr-2 mt-2" onclick="abrirModalAdicionarExpert()">
+                                    <i class="fas fa-plus-square"></i> ADICIONAR EXPERT
+                                </button>
+                                <button class="btn btn-outline-info mr-2 mt-2" onclick="window.location.href='#'">
+                                    <i class="fas fa-bars"></i> MENU PRINCIPAL
+                                </button>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group mt-2">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-search"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control" id="pesquisa-experts" 
+                                           placeholder="Pesquisar experts..." onkeyup="pesquisarExperts()">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tabela de Experts -->
+                        <div class="row">
+                            <div class="col">
+                                <table class="table table-striped">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th scope="col" onclick="ordenarTabela('experts', 'nome')">
+                                                NOME <i class="fas fa-arrow-up"></i>
+                                            </th>
+                                            <th scope="col" onclick="ordenarTabela('experts', 'profissao')">
+                                                PROFISSÃO
+                                            </th>
+                                            <th scope="col" onclick="ordenarTabela('experts', 'localTrabalho')">
+                                                LOCAL DE TRABALHO
+                                            </th>
+                                            <th scope="col" onclick="ordenarTabela('experts', 'dataCriacao')">
+                                                DATA DE CRIAÇÃO
+                                            </th>
+                                            <th scope="col">AÇÕES</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="corpo-tabela-experts">
+                                        <!-- Preenchido via JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal Sponsor -->
+    <div class="modal fade" id="modal-sponsor" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="titulo-modal-sponsor">ADICIONAR SPONSOR</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formulario-sponsor" onsubmit="guardarSponsor(event)">
+                        <input type="hidden" id="sponsor-id">
+                        
+                        <div class="form-group">
+                            <label class="campo-obrigatorio" for="sponsor-nome">Nome</label>
+                            <input type="text" class="form-control" id="sponsor-nome" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sponsor-data-nascimento">Data de Nascimento</label>
+                            <input type="date" class="form-control" id="sponsor-data-nascimento">
+                        </div>
+                        <div class="form-group">
+                            <label for="sponsor-cidade">Cidade</label>
+                            <input type="text" class="form-control" id="sponsor-cidade" placeholder="Ex: Lisboa">
+                        </div>
+                        <div class="form-group">
+                            <label for="sponsor-pais">País</label>
+                            <input type="text" class="form-control" id="sponsor-pais" placeholder="Ex: Portugal" value="Portugal">
+                        </div>
+                        <div class="form-group">
+                            <label class="campo-obrigatorio" for="sponsor-tipo-apoio">Tipo de Apoio</label>
+                            <input type="text" class="form-control" id="sponsor-tipo-apoio" placeholder="Ex: Material" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="sponsor-observacoes">Observações</label>
+                            <textarea class="form-control" id="sponsor-observacoes" rows="3" 
+                                      placeholder="Informações adicionais sobre o sponsor..."></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        <i class="fas fa-times"></i> CANCELAR
+                    </button>
+                    <button type="submit" form="formulario-sponsor" class="btn btn-success">
+                        <i class="fas fa-save"></i> GUARDAR
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Expert -->
+    <div class="modal fade" id="modal-expert" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="titulo-modal-expert">ADICIONAR EXPERT</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formulario-expert" onsubmit="guardarExpert(event)">
+                        <input type="hidden" id="expert-id">
+                        
+                        <div class="form-group">
+                            <label class="campo-obrigatorio" for="expert-nome">Nome</label>
+                            <input type="text" class="form-control" id="expert-nome" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="expert-data-nascimento">Data de Nascimento</label>
+                            <input type="date" class="form-control" id="expert-data-nascimento">
+                        </div>
+                        <div class="form-group">
+                            <label for="expert-cidade">Cidade</label>
+                            <input type="text" class="form-control" id="expert-cidade" placeholder="Ex: Lisboa">
+                        </div>
+                        <div class="form-group">
+                            <label for="expert-pais">País</label>
+                            <input type="text" class="form-control" id="expert-pais" placeholder="Ex: Portugal" value="Portugal">
+                        </div>
+                        <div class="form-group">
+                            <label class="campo-obrigatorio" for="expert-profissao">Profissão</label>
+                            <input type="text" class="form-control" id="expert-profissao" placeholder="Ex: Veterinário" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="campo-obrigatorio" for="expert-local-trabalho">Local de Trabalho</label>
+                            <input type="text" class="form-control" id="expert-local-trabalho" placeholder="Ex: Hospital Veterinário de Lisboa" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="expert-observacoes">Observações</label>
+                            <textarea class="form-control" id="expert-observacoes" rows="3" 
+                                      placeholder="Insira observações..."></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        <i class="fas fa-times"></i> CANCELAR
+                    </button>
+                    <button type="submit" form="formulario-expert" class="btn btn-success">
+                        <i class="fas fa-save"></i> GUARDAR
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Ver Detalhes -->
+    <div class="modal fade" id="modal-detalhes" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="titulo-modal-detalhes">DETALHES</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="conteudo-detalhes">
+                    <!-- Preenchido via JavaScript -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">
+                        <i class="fas fa-check"></i> OK
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contentor de Notificações -->
+    <div id="contentor-notificacoes"></div>
+
+    <!-- jQuery e Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!-- JavaScript Personalizado -->
+    <script>
+        // ===== DADOS DE ARMAZENAMENTO =====
+        let sponsors = [];
+        let experts = [];
+        let modoEdicaoSponsor = false;
+        let modoEdicaoExpert = false;
+
+        // ===== INICIALIZAÇÃO =====
+        $(document).ready(function() {
+            carregarDadosDoArmazenamento();
+            inicializarDadosExemplo();
+            atualizarTabelaSponsors();
+            atualizarTabelaExperts();
+        });
+
+        // ===== DADOS DE EXEMPLO =====
+        function inicializarDadosExemplo() {
+            if (sponsors.length === 0) {
+                sponsors = [
+                    {
+                        id: gerarIdUnico(),
+                        nome: 'Zooplus Portugal',
+                        tipoApoio: 'Material',
+                        estado: 'Ativo',
+                        observacoes: 'Fornece ração e acessórios para animais',
+                        dataNascimento: '2010-03-15',
+                        cidade: 'Lisboa',
+                        pais: 'Portugal',
+                        dataCriacao: '2024-01-15 10:30:00'
+                    },
+                    {
+                        id: gerarIdUnico(),
+                        nome: 'Clínica Veterinária São Bernardo',
+                        tipoApoio: 'Serviços',
+                        estado: 'Ativo',
+                        observacoes: 'Consultas veterinárias gratuitas',
+                        dataNascimento: '2005-07-20',
+                        cidade: 'Porto',
+                        pais: 'Portugal',
+                        dataCriacao: '2024-02-10 14:20:00'
+                    },
+                    {
+                        id: gerarIdUnico(),
+                        nome: 'Fundação Amigos dos Animais',
+                        tipoApoio: 'Financeiro',
+                        estado: 'Ativo',
+                        observacoes: 'Doação mensal de 500€',
+                        dataNascimento: '2012-11-05',
+                        cidade: 'Coimbra',
+                        pais: 'Portugal',
+                        dataCriacao: '2024-03-01 09:15:00'
+                    }
+                ];
+            }
+
+            if (experts.length === 0) {
+                experts = [
+                    {
+                        id: gerarIdUnico(),
+                        nome: 'Dr. António Silva',
+                        profissao: 'Veterinário',
+                        localTrabalho: 'Hospital Veterinário de Lisboa',
+                        especializacao: 'Animais Domésticos',
+                        dataNascimento: '1985-04-12',
+                        cidade: 'Lisboa',
+                        pais: 'Portugal',
+                        biografia: 'Especialista em medicina interna veterinária com 15 anos de experiência.',
+                        dataCriacao: '2024-01-20 11:00:00'
+                    },
+                    {
+                        id: gerarIdUnico(),
+                        nome: 'Dra. Maria Costa',
+                        profissao: 'Bióloga',
+                        localTrabalho: 'Jardim Zoológico de Lisboa',
+                        especializacao: 'Animais Exóticos',
+                        dataNascimento: '1990-08-25',
+                        cidade: 'Lisboa',
+                        pais: 'Portugal',
+                        biografia: 'Especializada em comportamento animal e conservação.',
+                        dataCriacao: '2024-02-15 10:30:00'
+                    },
+                    {
+                        id: gerarIdUnico(),
+                        nome: 'Dr. João Fernandes',
+                        profissao: 'Veterinário',
+                        localTrabalho: 'Clínica Veterinária do Porto',
+                        especializacao: 'Cirurgia',
+                        dataNascimento: '1982-12-03',
+                        cidade: 'Porto',
+                        pais: 'Portugal',
+                        biografia: 'Cirurgião veterinário especializado em procedimentos complexos.',
+                        dataCriacao: '2024-03-05 15:45:00'
+                    }
+                ];
+            }
+
+            guardarDadosNoArmazenamento();
+        }
+
+        // ===== FUNÇÕES AUXILIARES =====
+        function gerarIdUnico() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        }
+
+        function formatarData(dataString) {
+            if (!dataString) return '-';
+            const data = new Date(dataString);
+            return data.toLocaleDateString('pt-PT') + ' ' + data.toLocaleTimeString('pt-PT');
+        }
+
+        function formatarDataSimples(dataString) {
+            if (!dataString) return '-';
+            const data = new Date(dataString);
+            return data.toLocaleDateString('pt-PT');
+        }
+
+        function obterDataAtual() {
+            return new Date().toISOString().slice(0, 19).replace('T', ' ');
+        }
+
+        // ===== ARMAZENAMENTO LOCAL =====
+        function guardarDadosNoArmazenamento() {
+            localStorage.setItem('animalec_sponsors', JSON.stringify(sponsors));
+            localStorage.setItem('animalec_experts', JSON.stringify(experts));
+        }
+
+        function carregarDadosDoArmazenamento() {
+            const sponsorsGuardados = localStorage.getItem('animalec_sponsors');
+            const expertsGuardados = localStorage.getItem('animalec_experts');
+
+            if (sponsorsGuardados) {
+                sponsors = JSON.parse(sponsorsGuardados);
+            }
+
+            if (expertsGuardados) {
+                experts = JSON.parse(expertsGuardados);
+            }
+        }
+
+        // ===== NOTIFICAÇÕES =====
+        function mostrarNotificacao(mensagem, tipo = 'success') {
+            const tiposBootstrap = {
+                'sucesso': 'success',
+                'erro': 'danger',
+                'informacao': 'info'
+            };
+            
+            const tipoBootstrap = tiposBootstrap[tipo] || tipo;
+            
+            const html = `
+                <div class="alert alert-${tipoBootstrap} alert-dismissible fade show notificacao-flutuante" role="alert">
+                    <strong>${mensagem}</strong>
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span>&times;</span>
+                    </button>
+                </div>
+            `;
+            
+            $('#contentor-notificacoes').append(html);
+            
+            setTimeout(function() {
+                $('.notificacao-flutuante').alert('close');
+            }, 3000);
+        }
+
+        // ===== GESTÃO DE SPONSORS =====
+        function atualizarTabelaSponsors() {
+            const corpoTabela = $('#corpo-tabela-sponsors');
+            corpoTabela.empty();
+
+            if (sponsors.length === 0) {
+                corpoTabela.html(`
+                    <tr>
+                        <td colspan="5" class="text-center py-5">
+                            <i class="fas fa-inbox fa-3x text-muted mb-3"></i><br>
+                            <span class="text-muted">Nenhum sponsor registado. Clique em "ADICIONAR SPONSOR" para começar.</span>
+                        </td>
+                    </tr>
+                `);
+                return;
+            }
+
+            sponsors.forEach(sponsor => {
+                const badgeClass = sponsor.estado === 'Ativo' ? 'badge-ativo' : 'badge-inativo';
+                const linha = `
+                    <tr>
+                        <td class="pt-4">${sponsor.nome}</td>
+                        <td class="pt-4">${sponsor.tipoApoio}</td>
+                        <td class="pt-4">
+                            <span class="${badgeClass}">${sponsor.estado}</span>
+                        </td>
+                        <td class="pt-4">${formatarData(sponsor.dataCriacao)}</td>
+                        <td>
+                            <button class="btn btn-outline-success mr-2" onclick="editarSponsor('${sponsor.id}')">
+                                <i class="fas fa-edit"></i> EDITAR
+                            </button>
+                            <button class="btn btn-outline-success mr-2" onclick="verDetalhesSponsor('${sponsor.id}')">
+                                <i class="fas fa-search"></i> VER
+                            </button>
+                            <button class="btn btn-outline-danger mr-2" onclick="confirmarRemocaoSponsor('${sponsor.id}')">
+                                <i class="fas fa-trash-alt"></i> REMOVER
+                            </button>
+                        </td>
+                    </tr>
+                `;
+                corpoTabela.append(linha);
+            });
+        }
+
+        function abrirModalAdicionarSponsor() {
+            modoEdicaoSponsor = false;
+            $('#titulo-modal-sponsor').text('ADICIONAR SPONSOR');
+            $('#formulario-sponsor')[0].reset();
+            $('#sponsor-id').val('');
+            $('#sponsor-pais').val('Portugal');
+            $('#modal-sponsor').modal('show');
+        }
+
+        function editarSponsor(id) {
+            const sponsor = sponsors.find(s => s.id === id);
+            if (!sponsor) return;
+
+            modoEdicaoSponsor = true;
+            $('#titulo-modal-sponsor').text('EDITAR SPONSOR');
+            $('#sponsor-id').val(sponsor.id);
+            $('#sponsor-nome').val(sponsor.nome);
+            $('#sponsor-tipo-apoio').val(sponsor.tipoApoio);
+            $('#sponsor-estado').val(sponsor.estado);
+            $('#sponsor-observacoes').val(sponsor.observacoes || '');
+            $('#sponsor-data-nascimento').val(sponsor.dataNascimento || '');
+            $('#sponsor-cidade').val(sponsor.cidade || '');
+            $('#sponsor-pais').val(sponsor.pais || 'Portugal');
+            $('#modal-sponsor').modal('show');
+        }
+
+        function guardarSponsor(evento) {
+            evento.preventDefault();
+
+            const id = $('#sponsor-id').val();
+            const sponsor = {
+                id: id || gerarIdUnico(),
+                nome: $('#sponsor-nome').val().trim(),
+                tipoApoio: $('#sponsor-tipo-apoio').val(),
+                estado: $('#sponsor-estado').val(),
+                observacoes: $('#sponsor-observacoes').val().trim(),
+                dataNascimento: $('#sponsor-data-nascimento').val(),
+                cidade: $('#sponsor-cidade').val().trim(),
+                pais: $('#sponsor-pais').val().trim(),
+                dataCriacao: id ? sponsors.find(s => s.id === id).dataCriacao : obterDataAtual()
+            };
+
+            if (modoEdicaoSponsor) {
+                const indice = sponsors.findIndex(s => s.id === id);
+                sponsors[indice] = sponsor;
+                mostrarNotificacao('Sponsor atualizado com sucesso!', 'sucesso');
+            } else {
+                sponsors.push(sponsor);
+                mostrarNotificacao('Sponsor adicionado com sucesso!', 'sucesso');
+            }
+
+            guardarDadosNoArmazenamento();
+            atualizarTabelaSponsors();
+            $('#modal-sponsor').modal('hide');
+        }
+
+        function confirmarRemocaoSponsor(id) {
+            if (confirm('Tem a certeza que deseja remover este sponsor?')) {
+                removerSponsor(id);
+            }
+        }
+
+        function removerSponsor(id) {
+            sponsors = sponsors.filter(s => s.id !== id);
+            guardarDadosNoArmazenamento();
+            atualizarTabelaSponsors();
+            mostrarNotificacao('Sponsor removido com sucesso!', 'sucesso');
+        }
+
+        function verDetalhesSponsor(id) {
+            const sponsor = sponsors.find(s => s.id === id);
+            if (!sponsor) return;
+
+            const badgeClass = sponsor.estado === 'Ativo' ? 'badge-ativo' : 'badge-inativo';
+            
+            $('#titulo-modal-detalhes').text('DETALHES DO SPONSOR');
+            $('#conteudo-detalhes').html(`
+                <h5>${sponsor.nome}</h5>
+                <p>
+                    <b>Tipo de apoio:</b> ${sponsor.tipoApoio}<br>
+                    <b>Observações:</b> ${sponsor.observacoes || '-'}<br>
+                    <b>Data de nascimento:</b> ${formatarDataSimples(sponsor.dataNascimento)}<br>
+                    <b>Cidade:</b> ${sponsor.cidade || '-'}<br>
+                    <b>País:</b> ${sponsor.pais || '-'}
+                </p>
+            `);
+            
+            $('#modal-detalhes').modal('show');
+        }
+
+        function pesquisarSponsors() {
+            const termoPesquisa = $('#pesquisa-sponsors').val().toLowerCase();
+            $('#corpo-tabela-sponsors tr').each(function() {
+                const texto = $(this).text().toLowerCase();
+                $(this).toggle(texto.includes(termoPesquisa));
+            });
+        }
+
+        // ===== GESTÃO DE EXPERTS =====
+        function atualizarTabelaExperts() {
+            const corpoTabela = $('#corpo-tabela-experts');
+            corpoTabela.empty();
+
+            if (experts.length === 0) {
+                corpoTabela.html(`
+                    <tr>
+                        <td colspan="5" class="text-center py-5">
+                            <i class="fas fa-inbox fa-3x text-muted mb-3"></i><br>
+                            <span class="text-muted">Nenhum expert registado. Clique em "ADICIONAR EXPERT" para começar.</span>
+                        </td>
+                    </tr>
+                `);
+                return;
+            }
+
+            experts.forEach(expert => {
+                const linha = `
+                    <tr>
+                        <td class="pt-3">${expert.nome}</td>
+                        <td class="pt-3">${expert.profissao}</td>
+                        <td class="pt-3">${expert.localTrabalho}</td>
+                        <td class="pt-3">${formatarData(expert.dataCriacao)}</td>
+                        <td>
+                            <button class="btn btn-outline-success mr-2" onclick="editarExpert('${expert.id}')">
+                                <i class="fas fa-edit"></i> EDITAR
+                            </button>
+                            <button class="btn btn-outline-success mr-2" onclick="verDetalhesExpert('${expert.id}')">
+                                <i class="fas fa-search"></i> VER
+                            </button>
+                            <button class="btn btn-outline-danger mr-2" onclick="confirmarRemocaoExpert('${expert.id}')">
+                                <i class="fas fa-trash-alt"></i> REMOVER
+                            </button>
+                        </td>
+                    </tr>
+                `;
+                corpoTabela.append(linha);
+            });
+        }
+
+        function abrirModalAdicionarExpert() {
+            modoEdicaoExpert = false;
+            $('#titulo-modal-expert').text('ADICIONAR EXPERT');
+            $('#formulario-expert')[0].reset();
+            $('#expert-id').val('');
+            $('#expert-pais').val('Portugal');
+            $('#modal-expert').modal('show');
+        }
+
+        function editarExpert(id) {
+            const expert = experts.find(e => e.id === id);
+            if (!expert) return;
+
+            modoEdicaoExpert = true;
+            $('#titulo-modal-expert').text('EDITAR EXPERT');
+            $('#expert-id').val(expert.id);
+            $('#expert-nome').val(expert.nome);
+            $('#expert-profissao').val(expert.profissao);
+            $('#expert-local-trabalho').val(expert.localTrabalho);
+            $('#expert-especializacao').val(expert.especializacao || '');
+            $('#expert-data-nascimento').val(expert.dataNascimento || '');
+            $('#expert-cidade').val(expert.cidade || '');
+            $('#expert-pais').val(expert.pais || 'Portugal');
+            $('#expert-biografia').val(expert.biografia || '');
+            $('#modal-expert').modal('show');
+        }
+
+        function guardarExpert(evento) {
+            evento.preventDefault();
+
+            const id = $('#expert-id').val();
+            const expert = {
+                id: id || gerarIdUnico(),
+                nome: $('#expert-nome').val().trim(),
+                profissao: $('#expert-profissao').val().trim(),
+                localTrabalho: $('#expert-local-trabalho').val().trim(),
+                especializacao: $('#expert-especializacao').val().trim(),
+                dataNascimento: $('#expert-data-nascimento').val(),
+                cidade: $('#expert-cidade').val().trim(),
+                pais: $('#expert-pais').val().trim(),
+                biografia: $('#expert-biografia').val().trim(),
+                dataCriacao: id ? experts.find(e => e.id === id).dataCriacao : obterDataAtual()
+            };
+
+            if (modoEdicaoExpert) {
+                const indice = experts.findIndex(e => e.id === id);
+                experts[indice] = expert;
+                mostrarNotificacao('Expert atualizado com sucesso!', 'sucesso');
+            } else {
+                experts.push(expert);
+                mostrarNotificacao('Expert adicionado com sucesso!', 'sucesso');
+            }
+
+            guardarDadosNoArmazenamento();
+            atualizarTabelaExperts();
+            $('#modal-expert').modal('hide');
+        }
+
+        function confirmarRemocaoExpert(id) {
+            if (confirm('Tem a certeza que deseja remover este expert?')) {
+                removerExpert(id);
+            }
+        }
+
+        function removerExpert(id) {
+            experts = experts.filter(e => e.id !== id);
+            guardarDadosNoArmazenamento();
+            atualizarTabelaExperts();
+            mostrarNotificacao('Expert removido com sucesso!', 'sucesso');
+        }
+
+        function verDetalhesExpert(id) {
+            const expert = experts.find(e => e.id === id);
+            if (!expert) return;
+
+            $('#titulo-modal-detalhes').text('DETALHES DO EXPERT');
+            $('#conteudo-detalhes').html(`
+                <h5>${expert.nome}</h5>
+                <p>
+                    <b>Profissão:</b> ${expert.profissao}<br>
+                    <b>Local de Trabalho:</b> ${expert.localTrabalho}<br>
+                    <b>Data de nascimento:</b> ${formatarDataSimples(expert.dataNascimento)}<br>
+                    <b>Cidade:</b> ${expert.cidade || '-'}<br>
+                    <b>País:</b> ${expert.pais || '-'}<br>
+                </p>
+            `);
+            
+            $('#modal-detalhes').modal('show');
+        }
+
+        function pesquisarExperts() {
+            const termoPesquisa = $('#pesquisa-experts').val().toLowerCase();
+            $('#corpo-tabela-experts tr').each(function() {
+                const texto = $(this).text().toLowerCase();
+                $(this).toggle(texto.includes(termoPesquisa));
+            });
+        }
+
+        // ===== ORDENAÇÃO DE TABELAS =====
+        let ordemOrdenacao = {};
+
+        function ordenarTabela(tipo, campo) {
+            const dados = tipo === 'sponsors' ? sponsors : experts;
+            const ordem = ordemOrdenacao[tipo + campo] || 'asc';
+
+            dados.sort((a, b) => {
+                let valorA = a[campo];
+                let valorB = b[campo];
+
+                if (typeof valorA === 'string') valorA = valorA.toLowerCase();
+                if (typeof valorB === 'string') valorB = valorB.toLowerCase();
+
+                if (ordem === 'asc') {
+                    return valorA > valorB ? 1 : -1;
+                } else {
+                    return valorA < valorB ? 1 : -1;
+                }
+            });
+
+            ordemOrdenacao[tipo + campo] = ordem === 'asc' ? 'desc' : 'asc';
+
+            if (tipo === 'sponsors') {
+                atualizarTabelaSponsors();
+            } else {
+                atualizarTabelaExperts();
+            }
+        }
+    </script>
+</body>
+</html>
